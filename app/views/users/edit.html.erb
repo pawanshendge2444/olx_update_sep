@@ -1,0 +1,13 @@
+<h1>Edit User</h1>
+<%= form_with(model: @user, local: true,  method: :patch)  do |form| %>
+	<div>
+		<%= form.label :username %><br>
+		<%= form.text_field :username %>
+	</div>
+	<div>	
+	     <%= form.file_field :profile_image %>
+	</div><br>
+	<div>
+		<%= form.submit %>
+	</div>
+<% end %>
