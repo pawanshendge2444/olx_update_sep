@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
          # UserMailer.with(user: current_user, product: @product).product.deliver_now
 		if @product.save
 			flash[:notice] = "product has saved"
-			redirect_to @product
+			redirect_to landings_path
 		else
 			flash[:error] = "product has not saved"
 			render :new, status: :unprocessable_entity
@@ -42,7 +42,7 @@ class ProductsController < ApplicationController
 	    @product = current_user.products.find(params[:id])
 	    @product.destroy
         flash[:notice] = "product has destroyed"
-	    redirect_to root_path, status: :see_other
+	    redirect_to landings_path, status: :see_other
     end
 
     # def search

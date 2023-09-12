@@ -74,12 +74,13 @@
     <div class="profile">
       <h2>My Account</h2><br>
       <%= image_tag @user.profile_image, size:122 if @user.profile_image.attached? %> 
+      <p>Role: <%= @user.role%></p>
       <h1><%= @user.username %></h1>
       <p>Email: <%= @user.email%></p>
       <p>Location: New York, USA</p>
       <p>Joined: <%= @user.created_at%></p>
       <button><%= link_to "Edit Profile", edit_user_path(@user.id), class: "btn btn-primary", style: "text-decoration: none; color: white;" %></button>
-      <button><%= link_to "Back", root_path, style:"text-decoration: none; color:white;" %></button>
+      <button><%= link_to "Back", landings_path, style:"text-decoration: none; color:white;" %></button>
     </div>
   </body>
 </html>

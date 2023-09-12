@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :products
   get '/get_user_details', to: "users#get_user_details"
   resources :users 
+  resources :landings
 end
