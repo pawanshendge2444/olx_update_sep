@@ -74,7 +74,7 @@
     <div class="profile">
       <h2>My Account</h2><br>
       <%= image_tag @user.profile_image, size:122 if @user.profile_image.attached? %> 
-      <p>Role: <%= @user.role%></p>
+      <!-- <p>Role: <%#= @user.role%></p> -->
       <h1><%= @user.username %></h1>
       <p>Email: <%= @user.email%></p>
       <p>Location: New York, USA</p>

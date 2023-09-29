@@ -1,4 +1,3 @@
-landing#index
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -102,54 +101,12 @@ landing#index
       align-content: center;
       text-align: center;
     }
-    /*.home-sec {
-      font-family: "Montserrat", sans-serif;
-      background-color: #ffffff;
-      text-align: start;
-      min-height: 60rem;
-      height: auto;
-      margin: 0 auto 5rem auto;
-      justify-content: start;
-      max-width: 95rem;
-      color: #333;
-    }*/
     @media (max-width: 800px) {
       .home-sec {
         flex-flow: column wrap;
         max-width: 100%;
       }
     }
-    /*.eye-grabber {
-      flex: 1;
-      padding: 0 2rem;
-    }
-    @media (max-width: 800px) {
-      .eye-grabber {
-        max-width: max-content;
-        padding-bottom: 8rem;
-      }
-    }
-    .eye-grabber h1 {
-      font-size: 5rem;
-      line-height: 1.5;
-      font-weight: 600;
-    }
-    .eye-grabber h2 {
-      font-size: 2.4rem;
-      font-weight: 500;
-      color: #666;
-    }*/
-    /*.eye-grabber-img {
-      flex: 1;
-    }
-    @media (max-width: 800px) {
-      .eye-grabber-img {
-        width: 100%;
-      }
-    }
-    .eye-grabber-img img {
-      max-width: 100%;
-    }*/
     .btn {
       border: none;
       font-size: 2rem;
@@ -190,16 +147,6 @@ landing#index
     .sec-padding {
       padding: 8rem 0 10rem 0;
     }
-    /*#about {
-      background-color: #fafafa;
-    }
-    #about img {
-      max-width: 100%;
-      height: auto;
-      background-color: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.1);
-    }*/
     #varieties {
       background-color: #e3e3e3;
     }
@@ -243,43 +190,7 @@ landing#index
       transform: scale(1.05);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.19), 0 16px 16px rgba(0, 0, 0, 0.23);
     }
-    /*#our-service {
-      background-color: #ee6f57;
-    }*/
-    .bars {
-      height: max-content;
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: space-between;
-      align-content: flex-start;
-      margin: 2rem;
-      width: 100%;
-    }
-    #contact {
-      background-color: #cb3737;
-      color: #fafafa;
-    }
-    #contact h6 {
-      font-size: 3rem;
-      font-weight: 500;
-    }
-    input[type="email"] {
-      border: none;
-      outline: 0;
-      font-size: 2rem;
-      border-radius: 0.4rem;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-      padding: 2rem;
-    }
-    @media (max-width: 520px) {
-      #contact h6 {
-        font-size: 2rem;
-      }
-      #contact input[type="submit"],
-      #contact input[type="email"] {
-        margin: 1rem 1rem 0 1rem;
-      }
-    }
+    
     footer {
       font-size: 1.4rem;
       background-color: #ce2f2f;
@@ -308,16 +219,7 @@ landing#index
         <nav id="nav-bar">
           <% if user_signed_in? %>
             <a href="/users/sign_out" data-method="delete" class="nav-link" >LOGOUT</a>
-            <a href="/get_user_details" class="nav-link">MY ACCOUNT</a>
-            <a href="/users/edit" class="nav-link">EDIT PROFILE</a>
-            <a href="/cart_items" class="nav-link">CART</a>
-
-            <% if current_user.role == "seller" %>
-            <a href="/products/new" class="nav-link">ADD NEW PRODUCT</a>
-               <%#= link_to "New Product", new_product_path  %>
-
-            <% end %>
-
+            <%= link_to "BACK", landings_path, style:"text-decoration: none; color:black;" %>
           <% end %>
         </nav>
       </div>
@@ -325,35 +227,21 @@ landing#index
       <section id="varieties" class="sec-padding">
         <h3 class="section-heading">VARIETIES</h3>
         <div class="sec-content-div flexible">
-          <%#Product.all%>
-          <% Product.all.each do |product| %>
-          <div class="tile">
-            <%= image_tag product.image, size:122 if product.image.attached? %>
-              <h4>Price: ₹<%= number_with_delimiter(product.price, :delimiter => ',') %></h4>
-              <h4>Name: <%= product.name %></h4>
-              <p>
-                <%=  product.description %>
-              </p>
-               <button><%= link_to "show", product, style:"text-decoration: none; color:black;" %></button>
-              <% if current_user.role == "buyer" %>
-                <button> <%= button_to 'Add to cart',  cart_add_to_cart_path(product_id: product.id, cart_id: current_user&.cart&.id), :method => :post, remote: true, style:"text-decoration: none; color:black;" %></button>
-                <% end %>
-              <button> Buy now! </button>
-         </div>
-            <%end%>
+          <% current_user.cart.cart_items.each do |cart_item| %>
+            <div class="tile">
+              <%= image_tag cart_item.product.image, size:122%> 
+              <%= cart_item.product.user.username %>
+              <h4>Name: <%=  cart_item.product.name %></h4>
+              <h4>Price: <%=  cart_item.product.price %></h4>
+              <p><%= cart_item.product.description %></p>
+              <button>
+                <td><%= button_to 'Remove', cart_item_path(cart_item), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </button>
+            </div>
+          <% end %>
         </div>
-            
+          <p>Quantity:-<%= current_user.cart.cart_items.count %></p>   
       </section>
-      <!-- <section class="sec-padding" id="contact">
-        <h3 class="section-heading">CONTACT</h3>
-        <div class="sec-content-div flexible">
-          <h6>To make an order or just to know more contact us :</h6>
-          <form id="form" action="https://www.freecodecamp.com/email-submit" method="POST" >
-              <input type="email" name="email" id="email" placeholder="Your Email Address" required />
-            <input type="submit" class="btn" id="submit" value="Know More" />
-          </form>
-        </div>
-      </section> -->
     <footer>
       Created by
       <a href="#">Pawan Sendge..</a>
